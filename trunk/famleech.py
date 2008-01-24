@@ -6,6 +6,7 @@ import sys
 from collections import deque
 import htmllib, formatter, urlparse
 from random import random
+from time import sleep
 
 
 def leech(url):
@@ -37,13 +38,13 @@ def leech(url):
 		conn.request("GET", url)
 		while True:
 			delay = 5 * random()
-			sys.sleep(delay)
+			sleep(delay)
 			try:
 				resp = conn.getresponse()
-				respSuccess=true
+				respSuccess=True
 				break
 			except httplib.HTTPException, e:
-				respSuccess=false
+				respSuccess=False
 				print "Got an exception while downloading \"%s\"" % url
 				print e, repr(e)
 				print "Waiting to retry (hit CTRL-c to skip)"
@@ -53,7 +54,7 @@ def leech(url):
 					print "Giving up"
 					break
 				print "Retrying"
-		if respSuccess==true:
+		if respSuccess==True:
 			data = resp.read()
 			if 'pedigree_chart_gedcom.asp' in url:
 				f = open('%04d.ged' % count, 'wb')
@@ -67,6 +68,7 @@ def leech(url):
 
 
 if __name__ == '__main__':
+	print "famleech version 0.3"
 	opts, args = getopt.getopt(sys.argv[1:], '')
 	if len(args) != 1:
 		print 'Usage: famleech.py <url>'
