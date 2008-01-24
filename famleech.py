@@ -79,7 +79,7 @@ def leech(url):
 				#f.write(data)
 				#f.close()
 				count = count + 1
-				print 'Appended',ocunt,'gedcom files'
+				print 'Appended',count,'gedcom files'
 			parser.feed(data)
 			parser.close()
 	    
