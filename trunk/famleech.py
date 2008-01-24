@@ -5,22 +5,7 @@ import getopt
 import sys
 from collections import deque
 import htmllib, formatter, urlparse
-
-
-def append_gedcom(file, data, first):
-	writing = False
-	for line in data.split('\r\n'):
-		elems = line.split()
-		if len(elems) == 0:
-			continue
-		if int(elems[0]) == 0:
-			if not first:
-				writing = len(elems) == 3 and \
-					(elems[2] == 'INDI' or elems[2] == 'FAM')
-			else:
-				writing = elems[1] != 'TRLR'
-		if writing:
-			file.write('%s\r\n' % line)
+from random import random
 
 
 def leech(url):
@@ -45,26 +30,40 @@ def leech(url):
 	
 	parser = Parser(formatter.NullFormatter())
 	
-	file = open('result.ged', 'wb')
-	
 	count = 0
 	while len(queue) > 0:
 		url = queue.pop()
 		print 'Requesting', url
 		conn.request("GET", url)
-		resp = conn.getresponse()
-		data = resp.read()
-		if 'pedigree_chart_gedcom.asp' in url:
-			append_gedcom(file, data, count == 0)
-			count = count + 1
-			print 'Appended', count, 'gedcom files'
-		parser.feed(data)
-		parser.close()
-	
+		while True:
+			delay = 5 * random()
+			sys.sleep(delay)
+			try:
+				resp = conn.getresponse()
+				respSuccess=true
+				break
+			except httplib.HTTPException, e:
+				respSuccess=false
+				print "Got an exception while downloading \"%s\"" % url
+				print e, repr(e)
+				print "Waiting to retry (hit CTRL-c to skip)"
+				try:
+					sys.sleep(60)
+				except KeyboardInterrupt:
+					print "Giving up"
+					break
+				print "Retrying"
+		if respSuccess==true:
+			data = resp.read()
+			if 'pedigree_chart_gedcom.asp' in url:
+				f = open('%04d.ged' % count, 'wb')
+				f.write(data)
+				f.close()
+				count = count + 1
+			parser.feed(data)
+			parser.close()
+	    
 	conn.close()
-	
-	file.write('0 TRLR\r\n')
-	file.close()
 
 
 if __name__ == '__main__':
