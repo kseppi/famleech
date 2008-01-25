@@ -68,7 +68,7 @@ def leech(url):
 		    print e, repr(e)
 		    print "Waiting to retry (hit CTRL-c to skip)"
 		    try:
-			sys.sleep(60)
+			sleep(60)
 		    except KeyboardInterrupt:
 			print "Giving up"
 			break
