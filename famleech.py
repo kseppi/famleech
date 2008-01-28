@@ -1,12 +1,15 @@
 #!/usr/bin/python
 
 import httplib
+import socket
 import getopt
 import sys
 from collections import deque
 import htmllib, formatter, urlparse
 from random import random
 from time import sleep
+
+version="0.3.2"
 
 def append_gedcom(file, data, first):
     writing = False
@@ -53,26 +56,29 @@ def leech(url):
 	    print "Repeat URL:",url
 	else:
 	    leechedURLSet.add(url)
-	    print 'Requesting', url
-	    conn.request("GET", url)
 	    while True:
 		delay = 5 * random()
 		sleep(delay)
 		try:
+		    print 'Requesting', url
+		    conn.request("GET", url)
 		    resp = conn.getresponse()
 		    respSuccess=True
 		    break
-		except httplib.HTTPException, e:
+		except (httplib.HTTPException, socket.error), e:
+		    # Recreating the HTTPConnection, just in case
+		    conn = httplib.HTTPConnection(netloc)
 		    respSuccess=False
 		    print "Got an exception while downloading \"%s\"" % url
 		    print e, repr(e)
 		    print "Waiting to retry (hit CTRL-c to skip)"
 		    try:
-			sleep(60)
+			sleep(55)
+			print "Retrying"
+			sleep(5)
 		    except KeyboardInterrupt:
 			print "Giving up"
 			break
-		    print "Retrying"
 	    if respSuccess==True:
 		data = resp.read()
 		if 'pedigree_chart_gedcom.asp' in url:
@@ -93,7 +99,7 @@ def leech(url):
 
 
 if __name__ == '__main__':
-    print "famleech version 0.3.1"
+    print "famleech version",version
     opts, args = getopt.getopt(sys.argv[1:], '')
     if len(args) != 1:
 	print 'Usage: famleech.py <url>'
