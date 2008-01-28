@@ -1,5 +1,3 @@
-#Welcome to the famleech wiki.
-
 = Introduction =
 
 This simple python script's purpose is to scrape familysearch.org and get all of your ancestors information.
