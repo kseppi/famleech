@@ -81,7 +81,7 @@ def leech(url):
 		    #f.write(data)
 		    #f.close()
 		    count = count + 1
-		    print 'Appended',count,'gedcom files'
+		    print 'Appended',count,'gedcom files,',len(queue),'pages still in the queue.'
 		parser.feed(data)
 		parser.close()
 
@@ -93,7 +93,7 @@ def leech(url):
 
 
 if __name__ == '__main__':
-    print "famleech version 0.3"
+    print "famleech version 0.3.1"
     opts, args = getopt.getopt(sys.argv[1:], '')
     if len(args) != 1:
 	print 'Usage: famleech.py <url>'
