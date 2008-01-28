@@ -13,6 +13,6 @@ at the command prompt. The single quotes are essential.
 
 Developed for linux, but I have run it on cygwin. It should work on a non cygwin windows install of python, but I have not tried that. 
 
-= Issues =
+= Known Issues and ToDo List:=
 
 *Set it up to not repeat pages to avoid infinite loops and to cut 1/3rd of all duplicates in the scrape.
