@@ -21,4 +21,5 @@ See also ChangeLog.
 
 = Known Issues and To Do List:=
 
-*Set it up to not repeat pages to avoid infinite loops and to cut 1/3rd of all duplicates in the scrape.
+ * Improve duplicate checking
+ * figure out what is up with the broken "family" links in the downloaded/appended result.ged.
