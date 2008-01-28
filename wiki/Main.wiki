@@ -7,7 +7,13 @@ This simple python script's purpose is to scrape familysearch.org and get all of
 
 = Instructions for use =
 
-coming soon
+The script is an extreem alpha, and likely has many bugs, but it seems to be working.
+
+to run type: ./famleech 'url'
+
+at the command prompt. The single quotes are essential. 
+
+Developed for linux, but I have run it on cygwin. It should work on a non cygwin windows install of python, but I have not tried that. 
 
 = Issues =
 
