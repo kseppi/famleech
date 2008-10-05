@@ -1,4 +1,7 @@
 #!/usr/bin/python
+#License LGPL
+#Authors, Neil Toronto and James L. Carroll
+
 
 import httplib
 import socket
